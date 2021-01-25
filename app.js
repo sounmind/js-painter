@@ -4,6 +4,7 @@ const colors = document.getElementsByClassName("jsColor");
 const brushSize = document.getElementById("jsBrushSize");
 const modeButton = document.getElementById("jsModeButton");
 const saveButton = document.getElementById("jsSaveButton");
+const clearButton = document.getElementById("jsClearButton");
 
 const DEFAULT_LINE_WIDTH = 5;
 const DEFAULT_COLOR = "black";
@@ -90,6 +91,11 @@ function handleSaveButtonClick(event) {
   downloadLink.click();
 }
 
+function handleClearButtonClicked(event) {
+  context.fillStyle = DEFAULT_BACKGROUND_COLOR;
+  context.fillRect(0, 0, canvas.width, canvas.height);
+}
+
 if (canvas.getContext) {
   canvas.addEventListener("mousemove", onMouseMove);
   canvas.addEventListener("mousedown", startPainting);
@@ -115,4 +121,8 @@ if (modeButton) {
 
 if (saveButton) {
   saveButton.addEventListener("click", handleSaveButtonClick);
+}
+
+if (clearButton) {
+  clearButton.addEventListener("click", handleClearButtonClicked);
 }
