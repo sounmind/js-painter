@@ -5,6 +5,7 @@ const brushSize = document.getElementById("jsBrushSize");
 const modeButton = document.getElementById("jsModeButton");
 const saveButton = document.getElementById("jsSaveButton");
 const clearButton = document.getElementById("jsClearButton");
+const restoreButton = document.getElementById("jsRestoreButton");
 
 const DEFAULT_LINE_WIDTH = 5;
 const DEFAULT_COLOR = "black";
@@ -14,6 +15,7 @@ const DEFAULT_BACKGROUND_COLOR = "white";
 
 let painting = false;
 let filling = false;
+let canvasHistory = [];
 
 canvas.width = CANVAS_DEFAULT_WIDTH;
 canvas.height = CANVAS_DEFAULT_HEIGHT;
@@ -27,10 +29,12 @@ context.strokeStyle = DEFAULT_COLOR;
 context.lineWidth = DEFAULT_LINE_WIDTH;
 
 function startPainting() {
+  //   console.log("save(mouse down)");
+  updateHistory();
   painting = true;
 }
 
-function stopPainting() {
+function stopPainting(event) {
   painting = false;
 }
 
@@ -43,13 +47,11 @@ function onMouseMove(event) {
     context.moveTo(x, y);
   } else {
     // 클릭하고, 마우스를 움직일 때마다 실행
-    context.lineTo(x, y);
-    context.stroke();
+    if (!filling) {
+      context.lineTo(x, y);
+      context.stroke();
+    }
   }
-}
-
-function onMouseDown(event) {
-  painting = true;
 }
 
 function handleColorClick(event) {
@@ -92,8 +94,29 @@ function handleSaveButtonClick(event) {
 }
 
 function handleClearButtonClicked(event) {
+  //   console.log("save(clear button)");
+  updateHistory();
   context.fillStyle = DEFAULT_BACKGROUND_COLOR;
   context.fillRect(0, 0, canvas.width, canvas.height);
+}
+
+function handleRestoreButtonClicked(event) {
+  //   console.log("restore");
+  let previousImage = new Image();
+  const imageSource = canvasHistory.pop();
+  if (imageSource === undefined) {
+    console.log("canvasHistory is Empty!");
+    return;
+  } else {
+    previousImage.src = imageSource;
+    previousImage.onload = function (event) {
+      context.drawImage(previousImage, 0, 0);
+    };
+  }
+}
+
+function updateHistory() {
+  canvasHistory.push(canvas.toDataURL());
 }
 
 if (canvas.getContext) {
@@ -125,4 +148,8 @@ if (saveButton) {
 
 if (clearButton) {
   clearButton.addEventListener("click", handleClearButtonClicked);
+}
+
+if (restoreButton) {
+  restoreButton.addEventListener("click", handleRestoreButtonClicked);
 }
