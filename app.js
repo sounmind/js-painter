@@ -1,10 +1,13 @@
 const canvas = document.getElementById("jsCanvas");
 const context = canvas.getContext("2d");
+const colors = document.getElementsByClassName("jsColor");
+const brushSize = document.getElementById("jsBrushSize");
+const defaultLineWidth = 5;
 
 canvas.width = 700;
 canvas.height = 700;
 context.strokeStyle = "black";
-context.lineWidth = 2.5;
+context.lineWidth = defaultLineWidth;
 
 let painting = false;
 
@@ -34,6 +37,16 @@ function onMouseDown(event) {
   painting = true;
 }
 
+function handleColorClick(event) {
+  const colorClicked = event.target.style.backgroundColor;
+  context.strokeStyle = colorClicked;
+}
+
+function handleBrushSizeChange(event) {
+  const brushSizeChanged = event.target.value;
+  context.lineWidth = brushSizeChanged;
+}
+
 if (canvas.getContext) {
   canvas.addEventListener("mousemove", onMouseMove);
   canvas.addEventListener("mousedown", startPainting);
@@ -41,4 +54,12 @@ if (canvas.getContext) {
   canvas.addEventListener("mouseleave", stopPainting);
 } else {
   console.log("This Browser does not support Canvas!");
+}
+
+Array.from(colors).forEach((color) =>
+  color.addEventListener("click", handleColorClick)
+);
+
+if (brushSize) {
+  brushSize.addEventListener("input", handleBrushSizeChange);
 }
