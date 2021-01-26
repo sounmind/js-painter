@@ -8,36 +8,27 @@ body {
   padding-top: 50px;
 }
 
-.canvas {
+h1 {
+  font-size: 3em;
+  font-weight: 800;
+  margin: 15px 15px 15px 15px;
+}
+
+.controls__buttons {
   width: 700px;
-  height: 700px;
-  background-color: white;
-  border-radius: 15px;
-  box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
-}
-
-.controls {
-  margin-top: 40px;
+  margin-bottom: 15px;
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  justify-content: center;
 }
 
-.controls .controls__brush-size {
-  margin-bottom: 20px;
-}
-
-.controls .controls__buttons {
-  margin-bottom: 30px;
-}
-
-.controls__buttons button {
+.controls__buttons > button {
   all: unset;
   cursor: pointer;
   background-color: white;
   width: 100px;
   height: 20px;
   padding: 10px 10px 10px 10px;
+  margin: 5px 5px 5px 5px;
   border-radius: 10px;
   text-align: center;
   border: 1px solid gray;
@@ -45,6 +36,23 @@ body {
   text-transform: uppercase;
   font-weight: 300;
   box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+.canvas {
+  width: 700px;
+  height: 700px;
+  background-color: white;
+  border-radius: 15px;
+  box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
+  margin: 30px 30px 30px 30px;
+}
+
+main {
+  display: flex;
+  height: 700px;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
 }
 
 .controls__buttons button:active {
@@ -64,4 +72,21 @@ body {
 
 .controls__colors .controls__color:active {
   transform: scale(1.05);
+}
+
+.controls__brush-size {
+  justify-self: center;
+  position: relative;
+  transform: rotate(-90deg);
+  height: 50px;
+  width: 50px;
+}
+
+.controls__brush-size > input {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 500px;
+  height: 100%;
 }
